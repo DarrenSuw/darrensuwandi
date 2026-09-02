@@ -2,28 +2,20 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import { academic, competitions } from '@/data/awards';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
-import DecisionBoundaryField from '@/components/ui/DecisionBoundaryField';
 import Magnetic from '@/components/ui/Magnetic';
 
-
-// ── Data (unchanged from original sections) ───────────────────────────────────
-const deansListCount = academic.deansList.length;
-const gpa             = academic.gpa;
-const silverAward     = competitions.find((c) => c.badge === 'SILVER AWARD');
-
 const stats = [
-  { label: 'GPA',         value: gpa,                    numeric: true  },
-  { label: "Dean's List", value: `${deansListCount}×`,   numeric: true  },
-  { label: silverAward?.name ?? 'SEA-CICSIC 2026', value: 'Silver Award', numeric: false },
-  { label: 'Authorship',  value: '1 Paper (In Prep)',     numeric: false },
+  { label: 'ENGINEERING', value: '8+ Systems Built', numeric: false },
+  { label: 'EXPERTISE',   value: 'Full-Stack AI',    numeric: false },
+  { label: 'RESEARCH',    value: 'Adversarial ML',   numeric: false },
+  { label: 'HACKATHONS',  value: '4x Competitor',    numeric: false },
 ];
 
 const highlights = [
-  { label: 'Current',     value: 'XAI Research', sub: 'IET target'      },
-  { label: 'Latest ship', value: 'Resume Forge', sub: 'v1 · Aug 2026'   },
-  { label: 'Award',       value: 'Silver',       sub: 'SEA-CICSIC 2026' },
+  { label: 'CURRENT',     value: 'XAI Research', sub: 'Undergrad Researcher' },
+  { label: 'ACADEMICS',   value: '3.86 CGPA',    sub: 'Full Scholarship'     },
+  { label: 'RECOGNITION', value: "Dean's List",  sub: '3x Consecutive'       },
 ];
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
@@ -81,7 +73,6 @@ export default function HeroAboutSequence() {
   // ── Scroll-sequence refs ──────────────────────────────────────────────────────
   const wrapperRef        = useRef<HTMLElement>(null);
   const heroContentRef    = useRef<HTMLDivElement>(null);
-  const dbFieldWrapperRef = useRef<HTMLDivElement>(null);
   const photoRef          = useRef<HTMLDivElement>(null);
   const aboutContentRef   = useRef<HTMLDivElement>(null);
 
@@ -90,33 +81,13 @@ export default function HeroAboutSequence() {
   const targetProgress  = useRef(0);
 
 
-  // Layout cache — recalculated on resize, NOT on every scroll tick
-  const cachedLayout = useRef({ wrapperTop: 0, wrapperHeight: 0 });
 
-  function cacheLayout() {
-    const el = wrapperRef.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    cachedLayout.current = {
-      wrapperTop:    window.scrollY + rect.top,
-      wrapperHeight: rect.height,
-    };
-  }
 
   // Writes computed values directly to element styles — no React state, no re-renders
   function updateSequence() {
     const progress = currentProgress.current;
 
-    const globalField = document.getElementById('global-adversarial-field');
-    if (globalField) {
-      if (progress < 1) {
-        globalField.style.opacity = '0';
-        globalField.style.pointerEvents = 'none';
-      } else {
-        globalField.style.opacity = '1';
-        globalField.style.pointerEvents = 'none'; // it's always none in AdversarialField anyway
-      }
-    }
+    // We leave the global field alone to avoid double grid / background disappearing issues
 
     if (progress <= 0.4) {
       // ── Stage 1 (0.0 → 0.4): Hero + DBField fade out; photo static; About hidden ──
@@ -128,13 +99,7 @@ export default function HeroAboutSequence() {
         heroContentRef.current.style.opacity       = String(opacity);
         heroContentRef.current.style.pointerEvents = done ? 'none' : 'auto';
       }
-      if (dbFieldWrapperRef.current) {
-        // Fading out the wrapper disables mouse events when fully transparent,
-        // which stops DecisionBoundaryField's parent.mousemove listener from
-        // firing for an invisible element — no internal modification required.
-        dbFieldWrapperRef.current.style.opacity       = String(opacity);
-        dbFieldWrapperRef.current.style.pointerEvents = done ? 'none' : 'auto';
-      }
+
       if (photoRef.current)        photoRef.current.style.transform       = 'translateX(0)';
       if (aboutContentRef.current) {
         aboutContentRef.current.style.opacity       = '0';
@@ -149,10 +114,7 @@ export default function HeroAboutSequence() {
         heroContentRef.current.style.opacity       = '0';
         heroContentRef.current.style.pointerEvents = 'none';
       }
-      if (dbFieldWrapperRef.current) {
-        dbFieldWrapperRef.current.style.opacity       = '0';
-        dbFieldWrapperRef.current.style.pointerEvents = 'none';
-      }
+
       if (photoRef.current) {
         // Photo container is 50% wide, right-anchored.
         // translateX(-100%) moves it by 100% of its own width = 50vw → lands at left half.
@@ -176,7 +138,7 @@ export default function HeroAboutSequence() {
     if (window.innerWidth < 768) return;
 
     // Initial layout and target
-    cacheLayout();
+    const el = wrapperRef.current;
     const initRect = wrapperRef.current?.getBoundingClientRect();
     if (initRect) {
        const initialTarget = clamp(
@@ -187,11 +149,7 @@ export default function HeroAboutSequence() {
        currentProgress.current = initialTarget;
     }
 
-    // Immediately suppress the global AdversarialField canvas on mount
-    const globalField = document.getElementById('global-adversarial-field');
-    if (globalField) {
-      globalField.style.opacity = '0';
-    }
+
 
     // Continuous rAF loop for lerping
     let rafId: number | null = null;
@@ -213,7 +171,11 @@ export default function HeroAboutSequence() {
     };
 
     const handleScroll = () => {
-      const { wrapperTop, wrapperHeight } = cachedLayout.current;
+      const el = wrapperRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const wrapperTop = window.scrollY + rect.top;
+      const wrapperHeight = rect.height;
       targetProgress.current = clamp(
         (window.scrollY - wrapperTop) / (wrapperHeight - window.innerHeight),
         0, 1
@@ -222,8 +184,7 @@ export default function HeroAboutSequence() {
     };
 
     const handleResize = () => {
-      cacheLayout();
-      handleScroll(); // update target based on new layout
+      handleScroll();
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -235,10 +196,7 @@ export default function HeroAboutSequence() {
       window.removeEventListener('resize', handleResize);
       if (rafId) cancelAnimationFrame(rafId);
 
-      const globalField = document.getElementById('global-adversarial-field');
-      if (globalField) {
-        globalField.style.opacity = '1';
-      }
+
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -314,7 +272,7 @@ export default function HeroAboutSequence() {
                   style={{ fontSize: 'clamp(2rem, 3.5vw, 3.25rem)', maxWidth: '20ch', marginBottom: 'var(--space-4)', lineHeight: 1.1 }}
                 >
                   Building ML systems that reason, explain, and hold up under{' '}
-                  <span style={{ color: 'var(--gold)' }}>pressure.</span>
+                  <span style={{ color: 'var(--gold-text)' }}>pressure.</span>
                 </h1>
                 <p className="t-body" style={{ maxWidth: '46ch', marginBottom: 'var(--space-6)', fontSize: '0.9375rem' }}>
                   I research adversarial robustness and explainability — and ship the full-stack systems around the models that pass.
@@ -408,7 +366,7 @@ export default function HeroAboutSequence() {
             style={{ ...revealStyle(1), fontSize: 'clamp(1.75rem, 5vw, 2.5rem)', maxWidth: '20ch', marginBottom: 'var(--space-4)', lineHeight: 1.1 }}
           >
             Building ML systems that reason, explain, and hold up under{' '}
-            <span style={{ color: 'var(--gold)' }}>pressure.</span>
+            <span style={{ color: 'var(--gold-text)' }}>pressure.</span>
           </h1>
           <p className="t-body" style={{ ...revealStyle(2), maxWidth: '46ch', marginBottom: 'var(--space-6)', fontSize: '0.9375rem' }}>
             I research adversarial robustness and explainability — and ship the full-stack systems around the models that pass.
@@ -416,6 +374,7 @@ export default function HeroAboutSequence() {
           <div className="flex flex-wrap gap-2.5" style={revealStyle(3)}>
             <Magnetic><a href="#research" className="btn-ink">View Research</a></Magnetic>
             <Magnetic><a href="#projects" className="btn-gold">See Projects</a></Magnetic>
+            <Magnetic><a href="/resume.pdf" download className="btn-ghost">Resume ↓</a></Magnetic>
           </div>
 
 
@@ -462,15 +421,7 @@ export default function HeroAboutSequence() {
       >
         <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden' }}>
 
-          {/* DecisionBoundaryField wrapper — opacity and pointer-events driven by progress.
-              Wrapper opacity=0 at progress≥0.4 prevents the internal parent.mousemove
-              listener from firing for an invisible field without touching its internals. */}
-          <div
-            ref={dbFieldWrapperRef}
-            style={{ position: 'absolute', inset: 0, zIndex: 0 }}
-          >
-            <DecisionBoundaryField />
-          </div>
+
 
           {/* Hero content layer — left half — z-index 1 */}
           <div
@@ -499,7 +450,7 @@ export default function HeroAboutSequence() {
                   style={{ ...revealStyle(1), fontSize: 'clamp(2rem, 3.5vw, 3.25rem)', maxWidth: '20ch', marginBottom: 'var(--space-4)', lineHeight: 1.1 }}
                 >
                   Building ML systems that reason, explain, and hold up under{' '}
-                  <span style={{ color: 'var(--gold)' }}>pressure.</span>
+                  <span style={{ color: 'var(--gold-text)' }}>pressure.</span>
                 </h1>
                 {/* Subtext — delay 160 */}
                 <p className="t-body" style={{ ...revealStyle(2), maxWidth: '46ch', marginBottom: 'var(--space-6)', fontSize: '0.9375rem' }}>
@@ -509,6 +460,7 @@ export default function HeroAboutSequence() {
                 <div className="flex flex-wrap gap-2.5" style={revealStyle(3)}>
                   <Magnetic><a href="#research" className="btn-ink">View Research</a></Magnetic>
                   <Magnetic><a href="#projects" className="btn-gold">See Projects</a></Magnetic>
+                  <Magnetic><a href="/resume.pdf" download className="btn-ghost">Resume ↓</a></Magnetic>
                 </div>
 
 

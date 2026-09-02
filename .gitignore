@@ -26,9 +26,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # env files — never track any environment file
-.env
 .env*
-.env*.local
 
 
 # vercel

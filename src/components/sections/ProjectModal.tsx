@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import type { Project } from '@/data/projects';
 
 interface Props {
@@ -89,12 +89,52 @@ export default function ProjectModal({ project, isOpen, onClose, onNext, onPrev 
   // Reset tab when project changes
   useEffect(() => { setTab('overview'); }, [project?.id]);
 
-  // Close on Escape
+  const modalRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLElement | null>(null);
+
+  // Focus trap & Escape
   useEffect(() => {
-    if (!isOpen) return;
-    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
-    window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
+    if (!isOpen) {
+      if (triggerRef.current) {
+        triggerRef.current.focus();
+        triggerRef.current = null;
+      }
+      return;
+    }
+
+    triggerRef.current = document.activeElement as HTMLElement;
+    const modal = modalRef.current;
+
+    if (modal) {
+      const focusable = Array.from(
+        modal.querySelectorAll<HTMLElement>('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
+      );
+      if (focusable.length) focusable[0].focus();
+
+      const handler = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') {
+          onClose();
+          return;
+        }
+        if (e.key === 'Tab' && focusable.length > 0) {
+          const first = focusable[0];
+          const last = focusable[focusable.length - 1];
+          if (e.shiftKey) {
+            if (document.activeElement === first) {
+              e.preventDefault();
+              last.focus();
+            }
+          } else {
+            if (document.activeElement === last) {
+              e.preventDefault();
+              first.focus();
+            }
+          }
+        }
+      };
+      window.addEventListener('keydown', handler);
+      return () => window.removeEventListener('keydown', handler);
+    }
   }, [isOpen, onClose]);
 
   if (!isOpen || !project) return null;
@@ -144,8 +184,12 @@ export default function ProjectModal({ project, isOpen, onClose, onNext, onPrev 
 
       {/* Panel */}
       <div
+        ref={modalRef}
         className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl flex flex-col"
         style={{ background: 'var(--bg)', border: '1px solid var(--border)', boxShadow: '0 40px 100px rgba(0,0,0,0.14)' }}
+        role="dialog"
+        aria-modal="true"
+        aria-label={`${project.name} details`}
       >
         {/* ── Sticky header ── */}
         <div
@@ -159,16 +203,22 @@ export default function ProjectModal({ project, isOpen, onClose, onNext, onPrev 
             </span>
           </div>
           <div className="flex items-center gap-1">
-            {([{ label: '←', fn: onPrev }, { label: '→', fn: onNext }] as const).map((b) => (
-              <button
-                key={b.label} onClick={b.fn}
-                className="hover-gold w-7 h-7 flex items-center justify-center"
-                style={{ fontFamily: 'var(--font-mono)', fontSize: '0.875rem', color: 'var(--text-muted)' }}
-              >{b.label}</button>
-            ))}
+            <button
+              onClick={onPrev}
+              aria-label="Previous project"
+              className="hover-gold w-7 h-7 flex items-center justify-center"
+              style={{ fontFamily: 'var(--font-mono)', fontSize: '0.875rem', color: 'var(--text-muted)' }}
+            >←</button>
+            <button
+              onClick={onNext}
+              aria-label="Next project"
+              className="hover-gold w-7 h-7 flex items-center justify-center"
+              style={{ fontFamily: 'var(--font-mono)', fontSize: '0.875rem', color: 'var(--text-muted)' }}
+            >→</button>
             <div className="w-px h-4 mx-1.5" style={{ background: 'var(--border)' }} />
             <button
               onClick={onClose}
+              aria-label="Close project details"
               className="hover-gold w-7 h-7 flex items-center justify-center rounded"
               style={{ fontFamily: 'var(--font-mono)', fontSize: '0.875rem', color: 'var(--text-muted)' }}
             >✕</button>

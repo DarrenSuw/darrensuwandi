@@ -239,7 +239,7 @@ export default function ProjectCarousel({ projects, onOpenProject, entranceVisib
                   {/* Category label */}
                   <span style={{
                     fontFamily: 'var(--font-mono)', fontSize: '8px',
-                    letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--gold)',
+                    letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--gold-text)',
                   }}>{p.category}</span>
 
                   {/* Title + description */}
@@ -311,12 +311,13 @@ export default function ProjectCarousel({ projects, onOpenProject, entranceVisib
 
       {/* ── Navigation row ── */}
       <div className="flex items-center justify-center gap-4" style={navStyle}>
-        <button onClick={prev} className="btn-ghost" style={{ padding: '6px 14px' }}>←</button>
+        <button onClick={prev} aria-label="Previous project" className="btn-ghost" style={{ padding: '6px 14px' }}>←</button>
         <div className="flex items-center gap-1.5">
           {projects.map((_, i) => (
             <button
               key={i}
               onClick={() => setIdx(i)}
+              aria-label={`Go to project ${i + 1}`}
               className="rounded-full transition-all"
               style={{ width: i === idx ? '20px' : '5px', height: '5px', background: i === idx ? 'var(--gold)' : 'var(--border)' }}
             />
@@ -325,7 +326,7 @@ export default function ProjectCarousel({ projects, onOpenProject, entranceVisib
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', color: 'var(--text-muted)', minWidth: '40px', textAlign: 'center' }}>
           {idx + 1} / {n}
         </span>
-        <button onClick={next} className="btn-ghost" style={{ padding: '6px 14px' }}>→</button>
+        <button onClick={next} aria-label="Next project" className="btn-ghost" style={{ padding: '6px 14px' }}>→</button>
       </div>
     </div>
   );

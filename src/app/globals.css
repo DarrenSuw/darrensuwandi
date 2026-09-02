@@ -1,0 +1,247 @@
+/* Fonts loaded via next/font/google in layout.tsx — no @import needed */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #F8F8F7;
+
+  /* ── Animation easing constants ─────────────── */
+  --ease-entrance: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-arrival:  cubic-bezier(0.34, 1.56, 0.64, 1);
+  --surface: #F2F2F0;
+  --gold: #C49A00;
+  --gold-dark: #8A6C00;
+  --gold-light: #E8B800;
+  --ink: #181816;
+  --ink-mid: #2A2A28;
+  --text-primary: #111110;
+  --text-secondary: #6B6B66;
+  --text-muted: #A8A8A2;
+  --border: #E4E4E2;
+  --border-strong: #CECECE;
+  --line: #D9D9D6;
+
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'Fragment Mono', monospace;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+  --section-gap: 112px;
+  --container: 1100px;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-pill: 999px;
+}
+
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; font-size: 15px; }
+
+html, body {
+  max-width: 100vw;
+  overflow-x: clip;
+  background-color: var(--bg);
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 2px; }
+
+/* Section container */
+.sc {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+  width: 100%;
+}
+@media (max-width: 768px) { .sc { padding: 0 var(--space-4); } }
+
+/* Content above field */
+.above-field {
+  position: relative;
+  z-index: 1;
+}
+
+/* Section background — semi-transparent so grid shows through consistently */
+.glass-section {
+  background: rgba(248, 248, 247, 0.80);
+}
+
+/* Hairline divider */
+.hairline {
+  width: 100%;
+  height: 1px;
+  background: var(--border);
+}
+
+/* Gold glow text */
+.gold-glow { text-shadow: 0 0 48px rgba(196,154,0,0.28); }
+
+/* ── Typography scales ─────────────────────── */
+.t-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.t-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.t-display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  color: var(--text-primary);
+}
+
+.t-body {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+/* ── Hover helpers ─────────────────────────── */
+.hover-gold { transition: color 0.2s; }
+.hover-gold:hover { color: var(--gold) !important; }
+
+.btn-ghost {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  padding: 8px 18px;
+  color: var(--text-muted);
+  background: transparent;
+  transition: border-color 0.2s, color 0.2s;
+  cursor: pointer;
+}
+.btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+.btn-gold {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-radius: var(--radius-pill);
+  padding: 9px 20px;
+  background: var(--gold);
+  color: var(--bg);
+  font-weight: 600;
+  transition: background 0.2s;
+  cursor: pointer;
+  border: none;
+}
+.btn-gold:hover { background: var(--gold-light); }
+
+.btn-ink {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-radius: var(--radius-pill);
+  padding: 9px 20px;
+  background: var(--ink);
+  color: var(--bg);
+  font-weight: 600;
+  transition: background 0.2s;
+  cursor: pointer;
+  border: none;
+}
+.btn-ink:hover { background: var(--ink-mid); }
+
+/* ── Scroll-reveal animation keyframes ────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.88); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes lineGrow {
+  from { transform: scaleY(0); }
+  to   { transform: scaleY(1); }
+}
+/* "Current Focus" dot pulse — ONLY looping animation permitted site-wide */
+@keyframes dotPulseSlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(196,154,0,0); }
+  50%       { box-shadow: 0 0 0 5px rgba(196,154,0,0.15); }
+}
+/* DecisionBoundaryField — touch device idle drift */
+@keyframes idleDrift {
+  0%, 100% { transform: rotate(-4deg); }
+  50%       { transform: rotate(4deg); }
+}
+
+/* ── Reusable reveal classes ───────────────────── */
+.reveal-up {
+  opacity: 0;
+  animation: fadeUp 600ms var(--ease-entrance) both;
+}
+.reveal-in {
+  opacity: 0;
+  animation: fadeIn 500ms var(--ease-entrance) both;
+}
+.reveal-scale {
+  opacity: 0;
+  animation: scaleIn 400ms var(--ease-entrance) both;
+}
+
+/* ── Reduced-motion: collapse everything to final state ── */
+@media (prefers-reduced-motion: reduce) {
+  .reveal-up,
+  .reveal-in,
+  .reveal-scale {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  /* Disable Timeline line-draw */
+  [data-timeline-line] {
+    transform: scaleY(1) !important;
+    animation: none !important;
+  }
+  /* Disable "Current Focus" dot pulse */
+  [data-current-dot] {
+    animation: none !important;
+  }
+}
+

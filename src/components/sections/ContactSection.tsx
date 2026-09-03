@@ -62,7 +62,7 @@ export default function ContactSection() {
               {/* Subtext — delay 160 */}
 
               <p className="t-body" style={{ fontSize: '0.9375rem', maxWidth: '42ch', ...reveal(160) }}>
-                Whether it&apos;s a research collaboration, engineering role, or just to say hi — my inbox is always open.
+                I am currently open to software engineering roles, research collaborations, and technical consulting. Please feel free to reach out to discuss potential opportunities.
               </p>
             </div>
 

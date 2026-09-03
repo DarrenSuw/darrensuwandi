@@ -3,16 +3,17 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 
 const SECTIONS = [
-  { id: 'about', label: 'About' },
   { id: 'research', label: 'Research' },
   { id: 'writing', label: 'Writing' },
   { id: 'projects', label: 'Projects' },
   { id: 'timeline', label: 'Timeline' },
+  { id: 'techstack', label: 'Tech Stack' },
   { id: 'recognition', label: 'Recognition' },
+  { id: 'contact', label: 'Get in Touch' },
 ];
 
 export default function DotNav() {
-  const [activeId, setActiveId] = useState<string>('about');
+  const [activeId, setActiveId] = useState<string>('research');
   const [labelVisible, setLabelVisible] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -31,7 +32,7 @@ export default function DotNav() {
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
         if (visible.length > 0) setActive(visible[0].target.id);
       },
-      { threshold: [0.25, 0.5] }
+      { rootMargin: '-30% 0px -30% 0px' }
     );
 
     SECTIONS.forEach(({ id }) => {

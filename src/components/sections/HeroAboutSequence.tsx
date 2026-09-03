@@ -280,7 +280,6 @@ export default function HeroAboutSequence() {
                 <div className="flex flex-wrap gap-2.5">
                   <Magnetic><a href="#research" className="btn-ink">View Research</a></Magnetic>
                   <Magnetic><a href="#projects" className="btn-gold">See Projects</a></Magnetic>
-                  <Magnetic><a href="/resume.pdf" download className="btn-ghost">Resume ↓</a></Magnetic>
                 </div>
               </div>
               {/* Photo at Stage 1 resting position — right side, single instance */}
@@ -374,7 +373,6 @@ export default function HeroAboutSequence() {
           <div className="flex flex-wrap gap-2.5" style={revealStyle(3)}>
             <Magnetic><a href="#research" className="btn-ink">View Research</a></Magnetic>
             <Magnetic><a href="#projects" className="btn-gold">See Projects</a></Magnetic>
-            <Magnetic><a href="/resume.pdf" download className="btn-ghost">Resume ↓</a></Magnetic>
           </div>
 
 
@@ -460,7 +458,6 @@ export default function HeroAboutSequence() {
                 <div className="flex flex-wrap gap-2.5" style={revealStyle(3)}>
                   <Magnetic><a href="#research" className="btn-ink">View Research</a></Magnetic>
                   <Magnetic><a href="#projects" className="btn-gold">See Projects</a></Magnetic>
-                  <Magnetic><a href="/resume.pdf" download className="btn-ghost">Resume ↓</a></Magnetic>
                 </div>
 
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import SectionLabel from '@/components/ui/SectionLabel';
 import ProjectCarousel from './ProjectCarousel';
 import ProjectModal from './ProjectModal';
@@ -22,6 +22,18 @@ export default function ProjectsSection() {
     const i = projects.findIndex(p => p.id === openProject.id);
     setOpenProject(projects[(i - 1 + projects.length) % projects.length]);
   };
+
+  useEffect(() => {
+    const handleOpenModal = (e: Event) => {
+      const customEvent = e as CustomEvent<string>;
+      const p = projects.find(proj => proj.id === customEvent.detail);
+      if (p) {
+        setOpenProject(p);
+      }
+    };
+    window.addEventListener('openProjectModal', handleOpenModal);
+    return () => window.removeEventListener('openProjectModal', handleOpenModal);
+  }, []);
 
   // Header reveal
   const headerRef = useRef<HTMLDivElement>(null);

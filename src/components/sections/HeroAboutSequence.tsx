@@ -384,12 +384,14 @@ export default function HeroAboutSequence() {
           <div className="flex flex-wrap gap-2.5" style={revealStyle(3)}>
             <Magnetic><a href="#research" className="btn-ink">View Research</a></Magnetic>
             <Magnetic><a href="#projects" className="btn-gold">See Projects</a></Magnetic>
+          </div>
+          <div style={{ ...revealStyle(3), marginTop: '10px' }}>
             <Magnetic><a href="/resume.pdf" download className="btn-ghost">Resume ↓</a></Magnetic>
           </div>
 
 
           {/* Stat strip */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-y-8 gap-x-4" style={{ ...revealStyle(4), borderTop: '1px solid var(--border)', paddingTop: 'var(--space-5)', marginTop: 'var(--space-7)' }}>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-y-5 gap-x-4" style={{ ...revealStyle(4), borderTop: '1px solid var(--border)', paddingTop: 'var(--space-5)', marginTop: 'var(--space-5)' }}>
             {stats.map((s, i) => (
               <div key={i} className="flex flex-col gap-1.5" style={{ paddingLeft: i % 2 !== 0 ? 'var(--space-4)' : '0', borderLeft: i % 2 !== 0 ? '1px solid var(--border)' : 'none' }}>
                 <span className="t-eyebrow">{s.label}</span>
@@ -403,7 +405,7 @@ export default function HeroAboutSequence() {
       {/* Mobile About */}
       <section
         className="glass-section md:hidden"
-        style={{ paddingTop: 'var(--section-gap)', paddingBottom: 'var(--section-gap)', borderTop: '1px solid var(--border)' }}
+        style={{ paddingTop: 'var(--space-8)', paddingBottom: 'var(--section-gap)', borderTop: '1px solid var(--border)' }}
       >
         <div className="sc">
           <div style={{ paddingTop: '2px', marginBottom: 'var(--space-6)' }}>

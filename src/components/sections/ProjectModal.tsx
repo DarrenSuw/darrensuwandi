@@ -180,6 +180,47 @@ export default function ProjectModal({ project, isOpen, onClose, onNext, onPrev 
           opacity: 1;
         }
       `}</style>
+      <style>{`
+        .modal-stat-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          border: 1px solid var(--border);
+          border-radius: var(--radius-md);
+          overflow: hidden;
+        }
+        .modal-stat-cell {
+          padding: 14px 16px;
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+        }
+        /* 2-col: right border on col 0 (even), bottom border on row 0 */
+        .modal-stat-cell:nth-child(odd) {
+          border-right: 1px solid var(--border);
+        }
+        .modal-stat-cell:nth-child(1),
+        .modal-stat-cell:nth-child(2) {
+          border-bottom: 1px solid var(--border);
+        }
+        @media (min-width: 768px) {
+          .modal-stat-grid {
+            grid-template-columns: repeat(4, 1fr);
+          }
+          .modal-stat-cell:nth-child(odd) {
+            border-right: 1px solid var(--border);
+          }
+          .modal-stat-cell:nth-child(even) {
+            border-right: 1px solid var(--border);
+          }
+          .modal-stat-cell:last-child {
+            border-right: none;
+          }
+          .modal-stat-cell:nth-child(1),
+          .modal-stat-cell:nth-child(2) {
+            border-bottom: none;
+          }
+        }
+      `}</style>
       {/* Backdrop */}
       <div
         className="absolute inset-0 backdrop-blur-lg"
@@ -202,9 +243,15 @@ export default function ProjectModal({ project, isOpen, onClose, onNext, onPrev 
           className="sticky top-0 z-10 flex items-center justify-between gap-4 px-7 py-4"
           style={{ borderBottom: '1px solid var(--border)', background: 'rgba(248,248,247,0.96)', backdropFilter: 'blur(10px)' }}
         >
-          <div className="flex items-center gap-2.5 min-w-0">
-            <span className="w-2 h-2 rounded-full" style={{ background: dotColor }} />
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text-muted)' }}>
+          <div className="flex items-center gap-2.5 min-w-0 overflow-hidden">
+            <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: dotColor }} />
+            <span
+              style={{
+                fontFamily: 'var(--font-mono)', fontSize: '8px', letterSpacing: '0.10em',
+                textTransform: 'uppercase', color: 'var(--text-muted)',
+                whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+              }}
+            >
               {project.status} · {project.category} · {project.role}
             </span>
           </div>
@@ -280,16 +327,9 @@ export default function ProjectModal({ project, isOpen, onClose, onNext, onPrev 
           </div>
 
           {/* Stats strip */}
-          <div
-            className="grid grid-cols-2 md:grid-cols-4"
-            style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius-md)' }}
-          >
+          <div className="modal-stat-grid">
             {project.stats.map((s, i) => (
-              <div
-                key={i}
-                className="flex flex-col gap-1.5 p-4"
-                style={{ borderRight: i < project.stats.length - 1 ? '1px solid var(--border)' : 'none' }}
-              >
+              <div key={i} className="modal-stat-cell">
                 <span className="t-eyebrow">{s.label}</span>
                 <span className="t-display" style={{ fontSize: '1rem' }}>{s.value}</span>
               </div>

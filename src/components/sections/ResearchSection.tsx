@@ -63,6 +63,24 @@ export default function ResearchSection() {
         }
         .research-method-label {
           transition: color 0.2s;
+          font-size: 7px;
+          letter-spacing: 0.08em;
+          line-height: 1.4;
+          word-break: break-word;
+        }
+        @media (min-width: 768px) {
+          .research-method-label {
+            font-size: 8.5px;
+            letter-spacing: 0.12em;
+          }
+        }
+        .research-method-value {
+          font-size: 1.1rem;
+        }
+        @media (min-width: 768px) {
+          .research-method-value {
+            font-size: 1.625rem;
+          }
         }
       `}</style>
 
@@ -123,14 +141,14 @@ export default function ResearchSection() {
             {researchStats.map((s, i) => (
               <div
                 key={s.label}
-                className="research-method-cell flex flex-col gap-2 p-6"
+                className="research-method-cell flex flex-col gap-1.5 md:gap-2 p-3 md:p-6"
                 style={{
                   borderRight: i < researchStats.length - 1 ? '1px solid var(--border)' : 'none',
                   ...cardReveal(i),
                 }}
               >
-                <span className="t-label research-method-label" style={{ color: 'var(--text-muted)' }}>{s.label}</span>
-                <span className="t-display" style={{ fontSize: '1.625rem' }}>{s.value}</span>
+                <span className="research-method-label" style={{ fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-muted)' }}>{s.label}</span>
+                <span className="t-display research-method-value">{s.value}</span>
               </div>
             ))}
           </div>

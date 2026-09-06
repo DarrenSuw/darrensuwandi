@@ -168,8 +168,14 @@ export default function TechStackSection() {
         /* ── Wrapper / perspective ── */
         .ts-card-wrap {
           perspective: 900px;
-          width: 112px;
-          height: 112px;
+          width: 96px;
+          height: 96px;
+        }
+        @media (min-width: 768px) {
+          .ts-card-wrap {
+            width: 112px;
+            height: 112px;
+          }
         }
         .ts-card-inner {
           position: relative;
@@ -270,9 +276,17 @@ export default function TechStackSection() {
           gap: 14px;
         }
         .ts-grid {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 10px;
+          display: grid;
+          grid-template-columns: repeat(3, 96px);
+          justify-content: center;
+          gap: 8px;
+        }
+        @media (min-width: 768px) {
+          .ts-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+          }
         }
       `}</style>
 

@@ -137,9 +137,8 @@ export default function RecognitionSection() {
               {competitions.map((comp, i) => (
                 <div
                   key={comp.id}
-                  className="flex flex-col gap-3 p-6"
+                  className={`flex flex-col gap-3 p-6 ${i === 0 ? 'border-b md:border-b-0 md:border-r border-[var(--border)]' : ''}`}
                   style={{
-                    borderRight: i === 0 ? '1px solid var(--border)' : 'none',
                     ...(awardsVisible
                       ? { animationName:'recognitionReveal', animationDuration:'500ms', animationTimingFunction:'var(--ease-entrance)', animationFillMode:'both', animationDelay:`${i * 150}ms` }
                       : { opacity:0, transform:'translateY(20px)' }),

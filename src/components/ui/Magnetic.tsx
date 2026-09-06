@@ -10,7 +10,8 @@ export default function Magnetic({ children }: { children: ReactNode }) {
     const el = ref.current;
     if (!el) return;
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReduced) return;
+    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    if (prefersReduced || isTouch) return;
 
     let isHovering = false;
     let targetX = 0;

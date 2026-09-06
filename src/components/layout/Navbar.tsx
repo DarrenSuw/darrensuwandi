@@ -12,6 +12,7 @@ const navLinks = [
   { href: '#writing', label: 'Writing' },
   { href: '#projects', label: 'Projects' },
   { href: '#timeline', label: 'Timeline' },
+  { href: '#techstack', label: 'Stack' },
   { href: '#recognition', label: 'Recognition' },
   { href: '#contact', label: 'Contact' },
 ];
@@ -23,7 +24,10 @@ export default function Navbar() {
 
     <header
       className="fixed top-0 left-0 w-full z-50 flex justify-center"
-      style={{ padding: '14px 24px' }}
+      style={{
+        padding: '14px 24px',
+        paddingTop: 'calc(14px + env(safe-area-inset-top, 0px))'
+      }}
     >
       <nav
         className="w-full flex items-center justify-between backdrop-blur-xl"
@@ -65,7 +69,7 @@ export default function Navbar() {
             <a href="#contact" className="btn-gold">Get in touch</a>
           </Magnetic>
           <button
-            className="md:hidden p-1.5 flex flex-col gap-1"
+            className="md:hidden p-1.5 flex flex-col gap-1 items-center justify-center min-w-[44px] min-h-[44px]"
             onClick={() => setIsOpen(!isOpen)}
           >
             <div className="w-4 h-px transition-transform" style={{ background: 'var(--text-primary)', transform: isOpen ? 'rotate(45deg) translate(3px, 3px)' : 'none' }} />
@@ -79,9 +83,9 @@ export default function Navbar() {
       {isOpen && (
         <div className="md:hidden absolute top-full left-0 w-full px-6 pt-2">
           <div
-            className="flex flex-col p-4 backdrop-blur-xl"
+            className="flex flex-col p-4"
             style={{
-              background: 'rgba(248,248,247,0.96)',
+              background: 'var(--ink)',
               borderRadius: 'var(--radius-lg)',
               border: '1px solid var(--border)',
               boxShadow: '0 10px 30px rgba(0,0,0,0.05)'
@@ -93,7 +97,7 @@ export default function Navbar() {
                 href={href}
                 onClick={() => setIsOpen(false)}
                 className="py-3 px-4"
-                style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text-primary)', borderBottom: '1px solid var(--border)' }}
+                style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--bg)', borderBottom: '1px solid rgba(255,255,255,0.1)' }}
               >
                 {label}
               </Link>

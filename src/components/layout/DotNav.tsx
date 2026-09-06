@@ -49,14 +49,14 @@ export default function DotNav() {
   return (
     <div
       className="fixed hidden md:flex flex-col gap-[14px]"
-      style={{ right: '24px', top: '50%', transform: 'translateY(-50%)', zIndex: 50 }}
+      style={{ right: 'calc(24px + env(safe-area-inset-right, 0px))', top: '50%', transform: 'translateY(-50%)', zIndex: 50 }}
     >
       {SECTIONS.map(({ id, label }) => {
         const isActive = activeId === id;
         return (
           <div key={id} className="relative flex items-center justify-end gap-3">
             <span
-              className="absolute right-[22px] whitespace-nowrap transition-all duration-300"
+              className="absolute right-[44px] whitespace-nowrap transition-all duration-300"
               style={{
                 fontFamily: 'var(--font-mono)',
                 fontSize: '9px',
@@ -78,25 +78,35 @@ export default function DotNav() {
             <a
               href={`#${id}`}
               aria-label={`Go to ${label}`}
-              style={{
-                display: 'block',
-                width: isActive ? '13px' : '9px',
-                height: isActive ? '13px' : '9px',
-                borderRadius: '50%',
-                backgroundColor: isActive ? 'var(--gold)' : 'var(--border-strong)',
-                boxShadow: isActive ? '0 0 0 4px rgba(196,154,0,0.18), 0 0 10px rgba(196,154,0,0.3)' : 'none',
-                transition: 'all 0.3s cubic-bezier(0.4,0,0.2,1)',
-                flexShrink: 0,
-              }}
+              className="min-w-[44px] min-h-[44px] flex items-center justify-center"
+              style={{ flexShrink: 0 }}
               onMouseEnter={e => {
-                e.currentTarget.style.backgroundColor = 'var(--gold)';
-                e.currentTarget.style.transform = 'scale(1.2)';
+                const span = e.currentTarget.querySelector('span');
+                if (span) {
+                  span.style.backgroundColor = 'var(--gold)';
+                  span.style.transform = 'scale(1.2)';
+                }
               }}
               onMouseLeave={e => {
-                e.currentTarget.style.backgroundColor = isActive ? 'var(--gold)' : 'var(--border-strong)';
-                e.currentTarget.style.transform = 'scale(1)';
+                const span = e.currentTarget.querySelector('span');
+                if (span) {
+                  span.style.backgroundColor = isActive ? 'var(--gold)' : 'var(--border-strong)';
+                  span.style.transform = 'scale(1)';
+                }
               }}
-            />
+            >
+              <span
+                style={{
+                  display: 'block',
+                  width: isActive ? '10px' : '7px',
+                  height: isActive ? '10px' : '7px',
+                  borderRadius: '50%',
+                  backgroundColor: isActive ? 'var(--gold)' : 'var(--border-strong)',
+                  boxShadow: isActive ? '0 0 0 4px rgba(196,154,0,0.18), 0 0 10px rgba(196,154,0,0.3)' : 'none',
+                  transition: 'all 0.3s cubic-bezier(0.4,0,0.2,1)',
+                }}
+              />
+            </a>
           </div>
         );
       })}

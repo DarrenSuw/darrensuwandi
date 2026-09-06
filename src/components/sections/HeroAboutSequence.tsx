@@ -14,7 +14,7 @@ const stats = [
 
 const highlights = [
   { label: 'CURRENT',     value: 'XAI Research', sub: 'Undergrad Researcher' },
-  { label: 'ACADEMICS',   value: '3.86 CGPA',    sub: 'Full Scholarship'     },
+  { label: 'ACADEMICS',   value: '3.86 CGPA',    sub: '#2 Ranked - Full Scholarship' },
   { label: 'RECOGNITION', value: "Dean's List",  sub: '3x Consecutive'       },
 ];
 
@@ -134,13 +134,12 @@ export default function HeroAboutSequence() {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReduced) { setReducedMotion(true); return; }
 
-    // Mobile (below md): no sticky, no listener
-    if (window.innerWidth < 768) return;
-
+    // Removed JS width check on mount to allow CSS media queries to handle responsiveness naturally
+    
     // Initial layout and target
     const el = wrapperRef.current;
     const initRect = wrapperRef.current?.getBoundingClientRect();
-    if (initRect) {
+    if (initRect && initRect.height > 0) {
        const initialTarget = clamp(
          (window.scrollY - (window.scrollY + initRect.top)) / (initRect.height - window.innerHeight),
          0, 1
@@ -174,8 +173,10 @@ export default function HeroAboutSequence() {
       const el = wrapperRef.current;
       if (!el) return;
       const rect = el.getBoundingClientRect();
-      const wrapperTop = window.scrollY + rect.top;
       const wrapperHeight = rect.height;
+      if (wrapperHeight === 0) return; // desktop sequence is hidden via CSS
+      
+      const wrapperTop = window.scrollY + rect.top;
       targetProgress.current = clamp(
         (window.scrollY - wrapperTop) / (wrapperHeight - window.innerHeight),
         0, 1
@@ -240,10 +241,13 @@ export default function HeroAboutSequence() {
   const aboutParagraphs = (
     <div className="flex flex-col gap-5">
       <p className="t-body" style={{ fontSize: '0.9375rem' }}>
-        I&apos;m Darren Cornelius Suwandi, a second-year student in the School of Computing and Data Science at Xiamen University Malaysia, maintaining a 3.86 CGPA on a full scholarship with consecutive Dean&apos;s List honors since my first semester.
+        I&apos;m two years into a Bachelor of Digital Media &amp; Technology at Xiamen University Malaysia on a full scholarship (Ranked #2 in major), three Dean&apos;s List semesters, 3.86 GPA, and still figuring out the difference between research I can publish and engineering I can ship. Most of my work lives in that gap.
       </p>
       <p className="t-body" style={{ fontSize: '0.9375rem' }}>
-        Currently, I conduct research in adversarial machine learning and explainable AI (XAI) under Dr. Teh Jia Yew and Dr. Goh Sim Kuan, focusing on classifier evasion and anti-leakage protocols. Outside the lab, my core interests span Deep Learning, Computer Vision, LLM Engineering, and building resilient, AI-driven full-stack systems.
+        Right now that means co-authoring a paper with Dr. Teh Jia Yew and Dr. Goh Sim Kuan on why most SHAP pipelines are quietly broken, while also running Resume Forge, a SaaS I built solo over six months. Omni-QC, a PCB inspection system I led for a 7-person team, won Silver at SEA-CICSIC earlier this year.
+      </p>
+      <p className="t-body" style={{ fontSize: '0.9375rem' }}>
+        I&apos;m Indonesian, based in Malaysia. I write mostly in Python. I think about pipelines a lot.
       </p>
     </div>
   );
@@ -265,21 +269,21 @@ export default function HeroAboutSequence() {
               <div className="flex flex-col">
                 <div className="flex items-center gap-3 mb-6 md:mb-8">
                   <span style={{ display: 'block', width: '20px', height: '1px', background: 'var(--gold)' }} />
-                  <span className="t-label">ML Researcher &amp; AI Engineer</span>
+                  <span className="t-label">ML RESEARCHER &amp; AI ENGINEER · BASED IN MALAYSIA</span>
                 </div>
                 <h1
                   className="t-display gold-glow"
                   style={{ fontSize: 'clamp(2rem, 3.5vw, 3.25rem)', maxWidth: '20ch', marginBottom: 'var(--space-4)', lineHeight: 1.1 }}
                 >
-                  Building ML systems that reason, explain, and hold up under{' '}
-                  <span style={{ color: 'var(--gold-text)' }}>pressure.</span>
+                  Building ML systems that reason, explain, and hold up under <span style={{ color: 'var(--gold)' }}>pressure.</span>
                 </h1>
                 <p className="t-body" style={{ maxWidth: '46ch', marginBottom: 'var(--space-6)', fontSize: '0.9375rem' }}>
-                  I research adversarial robustness and explainability — and ship the full-stack systems around the models that pass.
+                  I research adversarial robustness and explainability. Shipping the full-stack systems around the models that pass.
                 </p>
                 <div className="flex flex-wrap gap-2.5">
                   <Magnetic><a href="#research" className="btn-ink">View Research</a></Magnetic>
                   <Magnetic><a href="#projects" className="btn-gold">See Projects</a></Magnetic>
+                  <Magnetic><a href="/resume.pdf" download className="btn-ghost">Resume ↓</a></Magnetic>
                 </div>
               </div>
               {/* Photo at Stage 1 resting position — right side, single instance */}
@@ -333,7 +337,7 @@ export default function HeroAboutSequence() {
 
   // ── NORMAL RENDER: mobile stack + desktop sticky sequence ──────────────────────
   return (
-    <>
+    <div id="about">
       {aboutHighlightStyles}
 
       {/* ────────────────────────────────────────────────────────────────────
@@ -342,44 +346,52 @@ export default function HeroAboutSequence() {
          ──────────────────────────────────────────────────────────────────── */}
       <section
         className="glass-section md:hidden"
-        style={{ paddingTop: '140px', paddingBottom: 'var(--space-9)' }}
+        style={{ paddingTop: '110px', paddingBottom: 'var(--space-9)' }}
       >
         <div className="sc">
           {/* Photo */}
-          <div style={{ width: '140px', aspectRatio: '3/4', position: 'relative', marginBottom: 'var(--space-7)', marginLeft: 'auto', marginRight: 'auto' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end' }}>
             <Image
               src="/darren-desaturated.png"
               alt="Darren Cornelius Suwandi"
-              fill
-              style={{ objectFit: 'contain', objectPosition: 'center bottom' }}
+              width={280}
+              height={373}
+              style={{
+                width: '65vw',
+                maxWidth: '280px',
+                height: 'auto',
+                objectFit: 'contain',
+                objectPosition: 'bottom center',
+                display: 'block',
+              }}
               priority
             />
           </div>
           {/* Hero text */}
           <div className="flex items-center gap-3 mb-6" style={revealStyle(0)}>
             <span style={{ display: 'block', width: '20px', height: '1px', background: 'var(--gold)' }} />
-            <span className="t-label">ML Researcher &amp; AI Engineer</span>
+            <span className="t-label">ML RESEARCHER &amp; AI ENGINEER · BASED IN MALAYSIA</span>
           </div>
           <h1
             className="t-display gold-glow"
             style={{ ...revealStyle(1), fontSize: 'clamp(1.75rem, 5vw, 2.5rem)', maxWidth: '20ch', marginBottom: 'var(--space-4)', lineHeight: 1.1 }}
           >
-            Building ML systems that reason, explain, and hold up under{' '}
-            <span style={{ color: 'var(--gold-text)' }}>pressure.</span>
+            Building ML systems that reason, explain, and hold up under <span style={{ color: 'var(--gold)' }}>pressure.</span>
           </h1>
           <p className="t-body" style={{ ...revealStyle(2), maxWidth: '46ch', marginBottom: 'var(--space-6)', fontSize: '0.9375rem' }}>
-            I research adversarial robustness and explainability — and ship the full-stack systems around the models that pass.
+            I research adversarial robustness and explainability. Shipping the full-stack systems around the models that pass.
           </p>
           <div className="flex flex-wrap gap-2.5" style={revealStyle(3)}>
             <Magnetic><a href="#research" className="btn-ink">View Research</a></Magnetic>
             <Magnetic><a href="#projects" className="btn-gold">See Projects</a></Magnetic>
+            <Magnetic><a href="/resume.pdf" download className="btn-ghost">Resume ↓</a></Magnetic>
           </div>
 
 
           {/* Stat strip */}
-          <div className="flex flex-wrap gap-y-6" style={{ ...revealStyle(4), borderTop: '1px solid var(--border)', paddingTop: 'var(--space-5)', marginTop: 'var(--space-7)' }}>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-y-8 gap-x-4" style={{ ...revealStyle(4), borderTop: '1px solid var(--border)', paddingTop: 'var(--space-5)', marginTop: 'var(--space-7)' }}>
             {stats.map((s, i) => (
-              <div key={i} className="flex flex-col gap-1.5" style={{ paddingRight: 'var(--space-7)', paddingLeft: i !== 0 ? 'var(--space-7)' : '0', borderLeft: i !== 0 ? '1px solid var(--border)' : 'none' }}>
+              <div key={i} className="flex flex-col gap-1.5" style={{ paddingLeft: i % 2 !== 0 ? 'var(--space-4)' : '0', borderLeft: i % 2 !== 0 ? '1px solid var(--border)' : 'none' }}>
                 <span className="t-eyebrow">{s.label}</span>
                 <span className="t-display" style={{ fontSize: '1rem', letterSpacing: '-0.01em', color: 'var(--text-primary)' }}>{s.value}</span>
               </div>
@@ -408,11 +420,8 @@ export default function HeroAboutSequence() {
 
       {/* ────────────────────────────────────────────────────────────────────
           DESKTOP (md and above): sticky 200vh scroll sequence.
-          id="about" on the outer section so DotNav's IntersectionObserver
-          fires correctly when the sticky panel is in the viewport.
          ──────────────────────────────────────────────────────────────────── */}
       <section
-        id="about"
         ref={wrapperRef as React.RefObject<HTMLElement>}
         className="glass-section hidden md:block"
         style={{ position: 'relative', minHeight: '200vh' }}
@@ -440,24 +449,24 @@ export default function HeroAboutSequence() {
                 {/* Eyebrow — delay 0 */}
                 <div className="flex items-center gap-3 mb-6 md:mb-8" style={revealStyle(0)}>
                   <span style={{ display: 'block', width: '20px', height: '1px', background: 'var(--gold)' }} />
-                  <span className="t-label">ML Researcher &amp; AI Engineer</span>
+                  <span className="t-label">ML RESEARCHER &amp; AI ENGINEER · BASED IN MALAYSIA</span>
                 </div>
                 {/* Headline — delay 80 */}
                 <h1
                   className="t-display gold-glow"
                   style={{ ...revealStyle(1), fontSize: 'clamp(2rem, 3.5vw, 3.25rem)', maxWidth: '20ch', marginBottom: 'var(--space-4)', lineHeight: 1.1 }}
                 >
-                  Building ML systems that reason, explain, and hold up under{' '}
-                  <span style={{ color: 'var(--gold-text)' }}>pressure.</span>
+                  Building ML systems that reason, explain, and hold up under <span style={{ color: 'var(--gold)' }}>pressure.</span>
                 </h1>
                 {/* Subtext — delay 160 */}
                 <p className="t-body" style={{ ...revealStyle(2), maxWidth: '46ch', marginBottom: 'var(--space-6)', fontSize: '0.9375rem' }}>
-                  I research adversarial robustness and explainability — and ship the full-stack systems around the models that pass.
+                  I research adversarial robustness and explainability. Shipping the full-stack systems around the models that pass.
                 </p>
                 {/* CTAs — delay 240 */}
                 <div className="flex flex-wrap gap-2.5" style={revealStyle(3)}>
                   <Magnetic><a href="#research" className="btn-ink">View Research</a></Magnetic>
                   <Magnetic><a href="#projects" className="btn-gold">See Projects</a></Magnetic>
+                  <Magnetic><a href="/resume.pdf" download className="btn-ghost">Resume ↓</a></Magnetic>
                 </div>
 
 
@@ -554,6 +563,6 @@ export default function HeroAboutSequence() {
 
         </div>
       </section>
-    </>
+    </div>
   );
 }

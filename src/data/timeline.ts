@@ -54,10 +54,10 @@ export const timeline: TimelineEntry[] = [
   },
   {
     id: 'digdaya-2026',
-    projectId: 'startup-emp',
+    projectId: 'kerjacerdas',
     date: 'May 2026',
     type: 'award',
-    title: 'Digdaya 2026 — Startup EMP',
+    title: 'Digdaya 2026 — KerjaCerdas',
     description: 'Finalist. Mitigated LLM hallucinations via strict Pydantic schema enforcement.',
     badge: 'Finalist',
   },

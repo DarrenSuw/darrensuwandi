@@ -49,7 +49,7 @@ export const competitions: CompetitionAward[] = [
     id: 'digdaya-2026',
     badge: 'FINALIST',
     name: 'Digdaya 2026',
-    project: 'Startup EMP',
+    project: 'KerjaCerdas',
     date: 'May 2026',
   },
 ]

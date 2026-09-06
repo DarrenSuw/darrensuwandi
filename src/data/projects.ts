@@ -114,14 +114,14 @@ export const projects: Project[] = [
   {
     id: 'kerjacerdas',
     name: 'KerjaCerdas',
-    status: 'HACKATHON',
+    status: 'SAAS',
     category: 'AI · Job Matching · Full-Stack',
     date: '2025',
     description: 'AI-native job platform for the Indonesian market — semantic vector matching, a multi-agent LangGraph swarm, explainable AI score breakdowns, and E-KYC verification to solve the triple-mismatch hiring problem.',
     stack: ['React 18', 'Vite', 'FastAPI', 'LangGraph', 'Gemini Flash', 'Gemini Embedding 2', 'PostgreSQL', 'pgvector', 'Docker', 'Zustand'],
     role: 'Product/UX Lead',
     repoUrl: 'https://github.com/LouSens/KerjaCerdas',
-    liveUrl: undefined,
+    liveUrl: 'https://kerja-cerdas.replit.app/',
     previewImage: '/kerjacerdas_card.jpeg',
     stats: [
       { label: 'Matching', value: 'Hybrid pgvector + heuristic' },

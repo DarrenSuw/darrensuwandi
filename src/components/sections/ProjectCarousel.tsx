@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Image from 'next/image';
 import type { Project } from '@/data/projects';
 
@@ -37,6 +37,10 @@ export default function ProjectCarousel({ projects, onOpenProject, entranceVisib
   const n = projects.length;
   const next = () => setIdx((i) => (i + 1) % n);
   const prev = () => setIdx((i) => (i - 1 + n) % n);
+
+  const touchStartX = useRef<number>(0);
+  const touchEndX = useRef<number>(0);
+  const MIN_SWIPE = 50;
 
   // Entrance: center card rises; outer wrapper fades in 150ms after center starts
   const stageStyle: React.CSSProperties = entranceVisible
@@ -87,8 +91,15 @@ export default function ProjectCarousel({ projects, onOpenProject, entranceVisib
       `}</style>
       {/* ── Stage ── */}
       <div
-        className="relative flex justify-center items-center"
-        style={{ height: `${IMG_H + BODY_H + 2}px`, perspective: '1200px', ...stageStyle }}
+        className="relative flex justify-center items-center h-[430px] md:h-[452px]"
+        style={{ perspective: '1200px', ...stageStyle }}
+        onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
+        onTouchEnd={(e) => {
+          touchEndX.current = e.changedTouches[0].clientX;
+          const delta = touchStartX.current - touchEndX.current;
+          if (delta > MIN_SWIPE) next();
+          if (delta < -MIN_SWIPE) prev();
+        }}
       >
         {projects.map((p, i) => {
           const raw = ((i - idx) + n) % n;
@@ -110,10 +121,9 @@ export default function ProjectCarousel({ projects, onOpenProject, entranceVisib
           return (
             <div
               key={p.id}
-              className="absolute carousel-card"
+              className={`absolute carousel-card h-[auto] md:h-[450px] max-h-[75vh]`}
               style={{
                 width:          `min(${CARD_W}px, 88vw)`,
-                height:         `${IMG_H + BODY_H}px`,
                 transform:      `translateX(${tx}) scale(${sc})`,
                 opacity:        op,
                 zIndex:         isCenter ? 30 : 20,
@@ -140,12 +150,8 @@ export default function ProjectCarousel({ projects, onOpenProject, entranceVisib
               >
                 {/* ── Preview zone ── */}
                 <div
+                  className="w-full shrink-0 relative overflow-hidden h-[180px] md:h-[220px]"
                   style={{
-                    width:    '100%',
-                    height:   `${IMG_H}px`,
-                    flexShrink: 0,
-                    position: 'relative',
-                    overflow: 'hidden',
                     background: p.previewImage ? 'transparent' : 'var(--surface)',
                   }}
                 >
@@ -227,14 +233,7 @@ export default function ProjectCarousel({ projects, onOpenProject, entranceVisib
 
                 {/* ── Body zone ── */}
                 <div
-                  style={{
-                    flex: 1,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '10px',
-                    padding: '16px 20px 18px',
-                    height: `${BODY_H}px`,
-                  }}
+                  className="flex-1 flex flex-col gap-[10px] p-[16px_20px_18px] h-auto md:h-[230px]"
                 >
                   {/* Category label */}
                   <span style={{
@@ -309,24 +308,56 @@ export default function ProjectCarousel({ projects, onOpenProject, entranceVisib
         })}
       </div>
 
-      {/* ── Navigation row ── */}
-      <div className="flex items-center justify-center gap-4" style={navStyle}>
-        <button onClick={prev} aria-label="Previous project" className="btn-ghost" style={{ padding: '6px 14px' }}>←</button>
+      {/* ── Navigation row (Desktop) ── */}
+      <div className="hidden md:flex items-center justify-center gap-3" style={navStyle}>
+        <div className="flex items-center justify-center min-w-[44px] min-h-[44px]">
+          <button onClick={prev} aria-label="Previous project" className="btn-ghost flex items-center justify-center" style={{ width: '36px', height: '36px', padding: 0, borderRadius: '50%' }}>←</button>
+        </div>
         <div className="flex items-center gap-1.5">
           {projects.map((_, i) => (
             <button
               key={i}
               onClick={() => setIdx(i)}
               aria-label={`Go to project ${i + 1}`}
-              className="rounded-full transition-all"
-              style={{ width: i === idx ? '20px' : '5px', height: '5px', background: i === idx ? 'var(--gold)' : 'var(--border)' }}
+              className="min-w-[44px] min-h-[44px] flex items-center justify-center"
+            >
+              <span className="rounded-full transition-all" style={{ width: i === idx ? '12px' : '6px', height: '6px', background: i === idx ? 'var(--gold)' : 'var(--border)' }} />
+            </button>
+          ))}
+        </div>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--text-muted)', minWidth: '40px', textAlign: 'center' }}>
+          {idx + 1} / {n}
+        </span>
+        <div className="flex items-center justify-center min-w-[44px] min-h-[44px]">
+          <button onClick={next} aria-label="Next project" className="btn-ghost flex items-center justify-center" style={{ width: '36px', height: '36px', padding: 0, borderRadius: '50%' }}>→</button>
+        </div>
+      </div>
+
+      {/* ── Navigation row (Mobile) ── */}
+      <div className="flex md:hidden flex-row items-center justify-center gap-[8px]" style={{ marginTop: '16px', ...navStyle }}>
+        <button onClick={prev} className="flex items-center justify-center min-w-[44px] min-h-[44px]">
+          <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '28px', height: '28px', border: '1px solid var(--border-strong)', borderRadius: '50%', background: 'transparent', color: 'var(--ink)', fontSize: '14px' }}>←</span>
+        </button>
+        <div className="flex items-center gap-[5px]">
+          {projects.map((_, i) => (
+            <span
+              key={i}
+              style={{
+                width: i === idx ? '14px' : '6px',
+                height: '6px',
+                borderRadius: i === idx ? '3px' : '50%',
+                background: i === idx ? 'var(--gold)' : 'var(--border-strong)',
+                transition: 'all 0.2s ease',
+              }}
             />
           ))}
         </div>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', color: 'var(--text-muted)', minWidth: '40px', textAlign: 'center' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--text-muted)', minWidth: '32px', textAlign: 'center' }}>
           {idx + 1} / {n}
         </span>
-        <button onClick={next} aria-label="Next project" className="btn-ghost" style={{ padding: '6px 14px' }}>→</button>
+        <button onClick={next} className="flex items-center justify-center min-w-[44px] min-h-[44px]">
+          <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '28px', height: '28px', border: '1px solid var(--border-strong)', borderRadius: '50%', background: 'transparent', color: 'var(--ink)', fontSize: '14px' }}>→</span>
+        </button>
       </div>
     </div>
   );

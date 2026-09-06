@@ -144,7 +144,13 @@ export default function ProjectModal({ project, isOpen, onClose, onNext, onPrev 
   const headings = TAB_HEADINGS[tab];
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8">
+    <div 
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8"
+      style={{
+        paddingTop: 'calc(16px + env(safe-area-inset-top, 0px))',
+        paddingBottom: 'calc(16px + env(safe-area-inset-bottom, 0px))'
+      }}
+    >
       <style>{`
         .slide-arrow-wrap {
           display: inline-flex;
@@ -206,20 +212,20 @@ export default function ProjectModal({ project, isOpen, onClose, onNext, onPrev 
             <button
               onClick={onPrev}
               aria-label="Previous project"
-              className="hover-gold w-7 h-7 flex items-center justify-center"
+              className="hover-gold min-w-[44px] min-h-[44px] flex items-center justify-center"
               style={{ fontFamily: 'var(--font-mono)', fontSize: '0.875rem', color: 'var(--text-muted)' }}
             >←</button>
             <button
               onClick={onNext}
               aria-label="Next project"
-              className="hover-gold w-7 h-7 flex items-center justify-center"
+              className="hover-gold min-w-[44px] min-h-[44px] flex items-center justify-center"
               style={{ fontFamily: 'var(--font-mono)', fontSize: '0.875rem', color: 'var(--text-muted)' }}
             >→</button>
             <div className="w-px h-4 mx-1.5" style={{ background: 'var(--border)' }} />
             <button
               onClick={onClose}
               aria-label="Close project details"
-              className="hover-gold w-7 h-7 flex items-center justify-center rounded"
+              className="hover-gold min-w-[44px] min-h-[44px] flex items-center justify-center rounded"
               style={{ fontFamily: 'var(--font-mono)', fontSize: '0.875rem', color: 'var(--text-muted)' }}
             >✕</button>
           </div>

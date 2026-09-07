@@ -381,12 +381,10 @@ export default function HeroAboutSequence() {
           <p className="t-body" style={{ ...revealStyle(2), maxWidth: '46ch', marginBottom: 'var(--space-6)', fontSize: '0.9375rem' }}>
             I research adversarial robustness and explainability. Shipping the full-stack systems around the models that pass.
           </p>
-          <div className="flex flex-wrap gap-2.5" style={revealStyle(3)}>
-            <Magnetic><a href="#research" className="btn-ink">View Research</a></Magnetic>
-            <Magnetic><a href="#projects" className="btn-gold">See Projects</a></Magnetic>
-          </div>
-          <div style={{ ...revealStyle(3), marginTop: '10px' }}>
-            <Magnetic><a href="/resume.pdf" download className="btn-ghost">Resume ↓</a></Magnetic>
+          <div className="flex flex-col w-full" style={{ ...revealStyle(3), gap: '12px' }}>
+            <Magnetic><a href="#research" className="btn-ink w-full" style={{ display: 'block', textAlign: 'center' }}>View Research</a></Magnetic>
+            <Magnetic><a href="#projects" className="btn-gold w-full" style={{ display: 'block', textAlign: 'center' }}>See Projects</a></Magnetic>
+            <Magnetic><a href="/resume.pdf" download className="btn-ghost w-full" style={{ display: 'block', textAlign: 'center' }}>Resume ↓</a></Magnetic>
           </div>
 
 

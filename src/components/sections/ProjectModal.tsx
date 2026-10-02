@@ -81,6 +81,12 @@ const TAB_CONTEXT: Record<string, Record<Tab, string>> = {
     implementation: 'Typewriter animation with cancel support keeps the UI feeling responsive even on long generations. YouTube transcript fetch is server-side to avoid CORS and API key exposure in the app.',
     results:        'Fully cross-platform Flutter build (iOS, Android, desktop). Three AI backends, YouTube Q&A, PDF analysis, image generation, and flashcard scoring — all in a single app.',
   },
+  'logic-node': {
+    overview:       'Cyber threat reports describe attacker behavior in long, unstructured text. Analysts must read that text and connect it to the right MITRE ATT&CK techniques. Logic Node explores whether a locally run AI model can help by finding relevant techniques and returning them in a clear, structured format with supporting evidence.',
+    architecture:   'The system is designed to run on a laptop with an 8 GB GPU, without relying on cloud inference. It uses a 4-bit version of the fdtn-ai/Foundation-Sec-8B model and trains small LoRA adapters to reduce memory use. The training data and MITRE ATT&CK version are pinned for repeatability. The embedding model is unloaded before language-model training so both models do not compete for GPU memory. The system must also handle benign text without inventing a technique.',
+    implementation: 'Logic Node combines technique search with model fine-tuning. It first uses BGE embeddings and a FAISS index to find possible ATT&CK techniques, then gives those candidates and the report excerpt to the fine-tuned model. The model is trained to return validated JSON, including a technique ID, tactic, confidence, and supporting text. The project also compares the base and fine-tuned models on held-out examples and checks output structure, technique matches, evidence similarity, and invalid ATT&CK IDs.',
+    results:        'The goal is to show measurable improvement over the base model on examples it did not train on. In the project’s reported test of 4,347 examples, the fine-tuned model produced valid JSON for 99.7% of outputs, reached 83.97% overall exact match, and scored 0.9082 on tactic-level F1. Its evidence passed the project’s fuzzy-match threshold in 99.96% of cases, and its reported ATT&CK ID hallucination rate was 0.0%. The base model produced no valid JSON on that test. These are project-reported results; the evidence score is a similarity check, not proof that every quote is exact.',
+  },
 };
 
 export default function ProjectModal({ project, isOpen, onClose, onNext, onPrev }: Props) {

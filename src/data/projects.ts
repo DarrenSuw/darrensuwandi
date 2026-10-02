@@ -19,6 +19,29 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    id: 'logic-node',
+    name: 'Logic Node',
+    status: 'RESEARCH',
+    category: 'AI · Machine Learning',
+    date: 'Oct 2026',
+    description: 'Local-first machine-learning project fine-tuning an 8B model to extract MITRE ATT&CK techniques from cyber threat reports.',
+    stack: ['Python', 'Hugging Face', 'TRL', 'PEFT', 'FAISS', 'FastAPI', 'Next.js'],
+    role: 'Solo',
+    repoUrl: 'https://github.com/DarrenSuw/logic-node',
+    liveUrl: undefined,
+    previewImage: '/logicnode_card.jpeg',
+    stats: [
+      { label: 'Model', value: 'Foundation-Sec-8B' },
+      { label: 'Test Examples', value: '4,347' },
+      { label: 'Valid JSON', value: '99.7%' },
+      { label: 'Exact Match', value: '83.97%' },
+    ],
+    overview: 'Logic Node is a local-first machine-learning project that trains an AI model to read short sections of cyber threat reports and identify relevant MITRE ATT&CK techniques. It combines ATT&CK technique retrieval using BGE embeddings and FAISS with QLoRA fine-tuning.',
+    architecture: 'The pipeline uses BAAI/bge-small-en-v1.5 to turn ATT&CK technique descriptions into embeddings, storing them in a FAISS IndexFlatIP index. For fine-tuning, the 8B base model uses QLoRA in 4-bit NF4 form. A FastAPI backend streams analysis stages to a Next.js web interface for demonstration.',
+    implementation: 'Prepared the MITRE TRAM dataset and built a search index for retrieval. Fine-tuned fdtn-ai/Foundation-Sec-8B on an RTX 5070 Laptop GPU using TRL SFTTrainer and PEFT. Evaluated the base and fine-tuned models on a held-out test set using Outlines-constrained decoding.',
+    results: 'Achieved 99.7% valid-JSON rate, 0.8397 average per-example F1, 0.9082 tactic-level F1, and an 83.97% overall exact match on 4,347 test examples. The reported fine-tuning run took about 23.4 hours on an RTX 5070 Laptop GPU.',
+  },
+  {
     id: 'resume-forge',
     name: 'Resume Forge',
     status: 'LIVE',

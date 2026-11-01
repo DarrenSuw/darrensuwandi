@@ -115,8 +115,8 @@ export default function ProjectCarousel({ projects, onOpenProject, entranceVisib
           const ry  = isL ? '16deg' : isR ? '-16deg' : '0deg';
           const op  = isCenter ? 1 : 0.48;
 
-          const dotColor = STATUS_COLOR[p.status] ?? '#C49A00';
-          const statusBg = STATUS_BG[p.status]   ?? 'rgba(196,154,0,0.12)';
+          const dotColor = p.featured ? '#C49A00' : STATUS_COLOR[p.status] ?? '#C49A00';
+          const statusBg = p.featured ? 'rgba(196,154,0,0.12)' : STATUS_BG[p.status] ?? 'rgba(196,154,0,0.12)';
 
           return (
             <div

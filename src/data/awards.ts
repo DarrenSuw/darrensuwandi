@@ -38,6 +38,13 @@ export const academic: AcademicHonor = {
 
 export const competitions: CompetitionAward[] = [
   {
+    id: 'sdc-hackathon-2026',
+    badge: 'TOP 7 FINALIST',
+    name: 'SDC XMUM Hackathon 2026',
+    project: 'Adept',
+    date: 'Nov 2026',
+  },
+  {
     id: 'sea-cicsic-2026',
     badge: 'SILVER AWARD',
     name: 'SEA-CICSIC 2026',

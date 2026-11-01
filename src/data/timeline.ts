@@ -12,6 +12,23 @@ export type TimelineEntry = {
 
 export const timeline: TimelineEntry[] = [
   {
+    id: 'sdc-hackathon-2026',
+    projectId: 'adept',
+    date: 'Oct 2026 - Nov 2026',
+    type: 'award',
+    title: 'SDC XMUM Hackathon 2026 — Adept',
+    description: 'Top 7 finalist out of 213 teams. Architected an explainable AI career-matching and reskilling platform with grounded LLM selection and SDG-linked pathways, and led system design, data pipelines and the final pitch.',
+    badge: 'Top 7 Finalist',
+  },
+  {
+    id: 'logic-node',
+    projectId: 'logic-node',
+    date: 'Oct 2026',
+    type: 'project',
+    title: 'Logic Node',
+    description: 'Fine-tuned an 8B security model with QLoRA and FAISS retrieval to extract MITRE ATT&CK techniques from threat reports, reaching 99.7% valid JSON on 4,347 held-out examples.',
+  },
+  {
     id: 'whatif-forecaster',
     projectId: 'whatif-forecaster',
     date: 'Apr 2026 - Present',

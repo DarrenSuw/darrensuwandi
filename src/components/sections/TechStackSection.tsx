@@ -8,6 +8,9 @@ import {
   SiN8N, SiUnity, SiBlender, SiAndroidstudio, SiWireshark,
   SiNextdotjs, SiFastapi, SiPytorch, SiScikitlearn, SiPandas,
   SiOptuna, SiPydantic,
+  SiReact, SiTailwindcss, SiPostgresql, SiDocker, SiHuggingface, SiGooglegemini,
+  SiFlutter, SiDart, SiRedis, SiSupabase, SiStripe, SiVite, SiFramer,
+  SiLangchain, SiOllama, SiGooglecloud, SiFirebase, SiNumpy, SiAnthropic, SiReplit,
 } from 'react-icons/si';
 import { IconType } from 'react-icons';
 
@@ -24,6 +27,14 @@ type Tech = {
   brandColor: string;
 };
 
+const badge = (text: string, size = 11) => (
+  <svg viewBox="0 0 40 40" width="36" height="36">
+    <rect width="40" height="40" rx="8" fill="currentColor" opacity="0.12"/>
+    <text x="50%" y="54%" dominantBaseline="middle" textAnchor="middle"
+      fill="currentColor" fontFamily="monospace" fontWeight="700" fontSize={size}>{text}</text>
+  </svg>
+);
+
 const LANGUAGES: Tech[] = [
   { name: 'Python',     descriptor: 'Primary language — ML & backend',      Icon: SiPython,     brandColor: '#3776AB' },
   { name: 'C',          descriptor: 'Systems & embedded programming',        Icon: SiC,          brandColor: '#A8B9CC' },
@@ -31,9 +42,20 @@ const LANGUAGES: Tech[] = [
   { name: 'TypeScript', descriptor: 'Type-safe full-stack development',      Icon: SiTypescript, brandColor: '#3178C6' },
   { name: 'JavaScript', descriptor: 'Web interactivity & scripting',         Icon: SiJavascript, brandColor: '#F7DF1E' },
   { name: 'SQL',        descriptor: 'MySQL · data querying & modeling',      Icon: SiMysql,      brandColor: '#4479A1' },
+  { name: 'Dart',       descriptor: 'Flutter app development',               Icon: SiDart,       brandColor: '#0175C2' },
 ];
 
 const TOOLS: Tech[] = [
+  { name: 'Docker',         descriptor: 'Containerised full-stack deployments', Icon: SiDocker,       brandColor: '#2496ED' },
+  { name: 'PostgreSQL',     descriptor: 'Relational DB with pgvector search',   Icon: SiPostgresql,   brandColor: '#4169E1' },
+  { name: 'Redis',          descriptor: 'Caching & workflow checkpointing',     Icon: SiRedis,        brandColor: '#DC382D' },
+  { name: 'Supabase',       descriptor: 'Auth, persistence & vector store',     Icon: SiSupabase,     brandColor: '#3ECF8E' },
+  { name: 'Firebase',       descriptor: 'Firestore & hosting',                  Icon: SiFirebase,     brandColor: '#FFCA28' },
+  { name: 'Google Cloud',   descriptor: 'Cloud Run serverless deployment',      Icon: SiGooglecloud,  brandColor: '#4285F4' },
+  { name: 'Stripe',         descriptor: 'Billing & subscriptions',              Icon: SiStripe,       brandColor: '#635BFF' },
+  { name: 'Replit',         descriptor: 'Hosted demo deployment',               Icon: SiReplit,       brandColor: '#F26207' },
+  { name: 'Ollama',         descriptor: 'Local LLM prototyping',                Icon: SiOllama,       brandColor: '#888888' },
+  { name: 'RunPod',         descriptor: 'GPU cloud compute', brandColor: '#673AB7', fallback: badge('RUNPOD', 9) },
   { name: 'n8n',            descriptor: 'Workflow automation & integrations', Icon: SiN8N,            brandColor: '#EA4B71' },
   { name: 'Unity',          descriptor: '3D/2D game development engine',      Icon: SiUnity,          brandColor: '#FFFFFF' },
   { name: 'Blender',        descriptor: '3D modeling, rendering & VFX',       Icon: SiBlender,        brandColor: '#E87D0D' },
@@ -54,6 +76,20 @@ const TOOLS: Tech[] = [
 ];
 
 const FRAMEWORKS: Tech[] = [
+  { name: 'React',         descriptor: 'Component-driven web frontends',     Icon: SiReact,        brandColor: '#61DAFB' },
+  { name: 'Tailwind CSS',  descriptor: 'Utility-first styling',              Icon: SiTailwindcss,  brandColor: '#06B6D4' },
+  { name: 'Vite',          descriptor: 'Fast React build tooling',           Icon: SiVite,         brandColor: '#646CFF' },
+  { name: 'Framer Motion', descriptor: 'UI animation',                       Icon: SiFramer,       brandColor: '#0055FF' },
+  { name: 'Flutter',       descriptor: 'Cross-platform mobile apps',         Icon: SiFlutter,      brandColor: '#02569B' },
+  { name: 'LangGraph',     descriptor: 'Multi-agent orchestration',          Icon: SiLangchain,    brandColor: '#1C3C3C' },
+  { name: 'Hugging Face',  descriptor: 'TRL & PEFT QLoRA fine-tuning',       Icon: SiHuggingface,  brandColor: '#FFD21E' },
+  { name: 'Gemini API',    descriptor: 'LLM & embeddings backbone',          Icon: SiGooglegemini, brandColor: '#8E75B2' },
+  { name: 'Claude API',    descriptor: 'Anthropic LLM integration',          Icon: SiAnthropic,    brandColor: '#D97757' },
+  { name: 'NumPy',         descriptor: 'Numerical computing',                Icon: SiNumpy,        brandColor: '#013243' },
+  { name: 'FAISS',         descriptor: 'Vector similarity search', brandColor: '#0467DF', fallback: badge('FAISS') },
+  { name: 'XGBoost',       descriptor: 'Gradient-boosted risk scoring', brandColor: '#189AB4', fallback: badge('XGB') },
+  { name: 'Zustand',       descriptor: 'Frontend state management', brandColor: '#8B5E3C', fallback: badge('ZUS', 12) },
+  { name: 'Pygame',        descriptor: 'Blackjack Q-Trainer UI', brandColor: '#2F8F2F', fallback: badge('PYGAME', 9) },
   { name: 'Next.js',     descriptor: 'Full-stack React framework',          Icon: SiNextdotjs,  brandColor: '#000000' },
   { name: 'FastAPI',     descriptor: 'High-performance Python API',         Icon: SiFastapi,    brandColor: '#009688' },
   { name: 'PyTorch',     descriptor: 'Deep learning & neural nets',         Icon: SiPytorch,    brandColor: '#EE4C2C' },

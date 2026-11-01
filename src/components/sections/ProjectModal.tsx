@@ -81,6 +81,12 @@ const TAB_CONTEXT: Record<string, Record<Tab, string>> = {
     implementation: 'Typewriter animation with cancel support keeps the UI feeling responsive even on long generations. YouTube transcript fetch is server-side to avoid CORS and API key exposure in the app.',
     results:        'Fully cross-platform Flutter build (iOS, Android, desktop). Three AI backends, YouTube Q&A, PDF analysis, image generation, and flashcard scoring — all in a single app.',
   },
+  'adept': {
+    overview:       'AI is changing which jobs and skills are in demand faster than workers and institutions can adapt. Working adults facing displacement, fresh graduates, career switchers, HR/L&D teams and TVET/university advisors all lack a trustworthy way to see which roles are emerging or declining, how their skills compare, and what to learn next.',
+    architecture:   'Synthetic and public data only, with no real CVs or identities. Zero invented entities: every job, course, skill, statistic and SDG target must resolve to an authoritative catalogue. The LLM is optional, off by default and limited to selecting request-scoped catalogue IDs, with a deterministic fallback. Every output carries sources, retrieval dates, a snapshot date and a moderate or fast scenario, and forecasts are labelled as estimates. Human-in-the-loop: no autonomous hiring, firing, promotion or admission decisions. Protected attributes are never used in ranking.',
+    implementation: 'One backend serving two modes (Individual /app and Organisation /org) across eight feature modules. Python 3.11, FastAPI and Pydantic v2 on the backend; Next.js 16, TypeScript (strict) and Tailwind v4 on the frontend; PostgreSQL 16 with pgvector; typed API clients; English, Malay and Chinese localisation. Offline data pipelines follow a six-stage standard, features call each other in-process, and a single make check gate runs lint, type checks, tests, translation parity and contract-drift checks.',
+    results:        'Every recommended job, skill and course must trace back to a real catalogue record, enforced by a guardrail regression test (test_sources_everywhere.py). Forecasts and scores are explainable with uncertainty labels, skills-gap analysis is transparent, and each user gets an SDG-linked pathway. The system fails safely to deterministic behaviour and never fabricates a result. Adept reached the finals and placed Top 7 of 213 teams.',
+  },
   'logic-node': {
     overview:       'Cyber threat reports describe attacker behavior in long, unstructured text. Analysts must read that text and connect it to the right MITRE ATT&CK techniques. Logic Node explores whether a locally run AI model can help by finding relevant techniques and returning them in a clear, structured format with supporting evidence.',
     architecture:   'The system is designed to run on a laptop with an 8 GB GPU, without relying on cloud inference. It uses a 4-bit version of the fdtn-ai/Foundation-Sec-8B model and trains small LoRA adapters to reduce memory use. The training data and MITRE ATT&CK version are pinned for repeatability. The embedding model is unloaded before language-model training so both models do not compete for GPU memory. The system must also handle benign text without inventing a technique.',
@@ -145,7 +151,7 @@ export default function ProjectModal({ project, isOpen, onClose, onNext, onPrev 
 
   if (!isOpen || !project) return null;
 
-  const dotColor = STATUS_COLOR[project.status] ?? '#C49A00';
+  const dotColor = project.featured ? '#C49A00' : STATUS_COLOR[project.status] ?? '#C49A00';
   const ctx = TAB_CONTEXT[project.id]?.[tab];
   const headings = TAB_HEADINGS[tab];
 

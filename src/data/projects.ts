@@ -6,6 +6,7 @@ export type Project = {
   date: string
   description: string
   stack: string[]
+  featured?: boolean  // gold accent for finalist / award-winning projects
   role: string
   repoUrl?: string
   liveUrl?: string
@@ -18,6 +19,30 @@ export type Project = {
 }
 
 export const projects: Project[] = [
+  {
+    id: 'adept',
+    name: 'Adept',
+    status: 'HACKATHON',
+    featured: true,
+    category: 'AI · Career Matching · Full-Stack',
+    date: 'Oct – Nov 2026',
+    description: 'AI career-matching and reskilling platform — maps your skills to rising roles with explainable gap scores, AI-disruption scenarios, and a personalised learning pathway. Top 7 finalist of 213 teams.',
+    stack: ['Next.js 16', 'React 19', 'TypeScript', 'Tailwind CSS', 'Python', 'FastAPI', 'Pydantic v2', 'PostgreSQL 16', 'pgvector', 'Docker', 'Replit', 'RunPod', 'GLM-5.3', 'Gemini', 'MiniLM-L6-v2'],
+    role: 'AI & System Engineer · Project Manager · Risk Analyst · Main Pitcher',
+    repoUrl: 'https://github.com/DarrenSuw/adept',
+    liveUrl: 'https://adept-my.replit.app/',
+    previewImage: '/adept_card.jpeg',
+    stats: [
+      { label: 'Result', value: 'Top 7 Finalist · 213 teams' },
+      { label: 'Team', value: '4 people' },
+      { label: 'Automated tests', value: '940+' },
+      { label: 'Languages', value: 'English · Bahasa Melayu · Chinese' },
+    ],
+    overview: 'Built with a four-person team (Pecel Lele) for the SDC XMUM Hackathon, Domain 1: The Aiversecity Future-Ready Workforce. AI is changing which jobs and skills are in demand faster than workers and institutions can adapt, and working adults facing displacement, fresh graduates, career switchers, HR/L&D teams and TVET/university advisors lack a trustworthy way to see which roles are emerging or declining, how their skills compare, and what to learn next. Adept monitors AI advancement to forecast emerging and declining jobs and skills, matches people to future roles with explainable skills-gap analysis, and builds personalised reskilling pathways linked to the UN SDGs (main goal SDG 4, targets 4.3, 4.4, 8.2, 8.5).',
+    architecture: 'One backend, two modes: a single engine serves Individual Mode (/app) and Organisation Mode (/org) through eight modules — skills profile intake, AI-trend signal layer and radar, scenarios and uncertainty, future-role matching and gap analysis, reskilling pathways, SDG mapping, organisation heatmaps, and guardrails and transparency. Stack: Python 3.11, FastAPI and Pydantic v2; Next.js 16, TypeScript (strict) and Tailwind v4; PostgreSQL 16 with pgvector; typed API clients; English, Malay and Chinese localisation. Features call each other in-process (not HTTP self-calls), with feature errors mapped to HTTP codes at the router boundary. Offline data pipelines follow a six-stage standard, and a grounding gate gives the LLM a deterministic fallback and server-authored answer blocks, so the assistant never renders unchecked model prose or figures.',
+    implementation: 'Design constraints: synthetic and public data only; zero invented entities (jobs, courses, skills, statistics and SDG targets must resolve to an authoritative catalogue); optional LLM, off by default, limited to selecting from request-scoped catalogue IDs; mandatory attribution on every recommendation, match score and trend projection (sources, retrieval dates, snapshot date, moderate or fast scenario, forecasts labelled as estimates); human-in-the-loop with no autonomous hiring, firing, promotion or admission decisions; privacy and fairness with separated personal and organisation data, explicit consent for sharing, and protected attributes never used in ranking. I owned system ideation, trend analysis, matching algorithms and the data scraping pipelines (arXiv, US BLS, Talent Corp), and led project management, risk analysis and the final pitch. A migrations log records every methodology change, and a single make check gate runs lint, type checks, tests, translation parity and contract-drift checks.',
+    results: 'Top 7 finalist out of 213 teams. Every recommended job, skill and course traces back to a real catalogue record, enforced by a guardrail regression test (test_sources_everywhere.py). Forecasts and scores are explainable with uncertainty labels, each user gets a personalised SDG-linked pathway, organisations get workforce heatmaps and group pathways, and the system fails safely to deterministic behaviour without ever fabricating a result. Backed by 940+ automated tests.',
+  },
   {
     id: 'logic-node',
     name: 'Logic Node',
@@ -96,7 +121,7 @@ export const projects: Project[] = [
     description: 'AI-powered SaaS reimbursement assistant — a 6-agent LangGraph pipeline that extracts, validates, cross-references, and auto-approves or escalates expense claims in natural language.',
     stack: ['LangGraph', 'FastAPI', 'ILMU GLM-5.1', 'Pydantic v2', 'React 19', 'TypeScript', 'Vite', 'Tailwind CSS', 'LangSmith', 'rapidfuzz'],
     role: 'Design · Pitch',
-    repoUrl: 'https://github.com/LouSens/Orion',
+    repoUrl: 'https://github.com/DarrenSuw/Orion',
     liveUrl: undefined,
     previewImage: '/orion_card.jpeg',
     stats: [
@@ -119,7 +144,7 @@ export const projects: Project[] = [
     description: 'AI-native ecosystem management platform for accelerators — replaces spreadsheets with a multi-agent pipeline that parses pitch decks, scores applications, and matches startups to mentors via semantic similarity.',
     stack: ['React', 'Vite', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Cytoscape.js', 'FastAPI', 'LangGraph', 'Gemini Flash', 'Gemini Embedding 2', 'Firestore', 'Cloud Run'],
     role: 'Risk Analyst',
-    repoUrl: 'https://github.com/nerdylive123/Startup-emp',
+    repoUrl: 'https://github.com/DarrenSuw/Startup-emp',
     liveUrl: 'https://n8n-proj-455013.web.app/',
     previewImage: '/startupemp_card.jpeg',
     stats: [
@@ -143,7 +168,7 @@ export const projects: Project[] = [
     description: 'AI-native job platform for the Indonesian market — semantic vector matching, a multi-agent LangGraph swarm, explainable AI score breakdowns, and E-KYC verification to solve the triple-mismatch hiring problem.',
     stack: ['React 18', 'Vite', 'FastAPI', 'LangGraph', 'Gemini Flash', 'Gemini Embedding 2', 'PostgreSQL', 'pgvector', 'Docker', 'Zustand'],
     role: 'Product/UX Lead',
-    repoUrl: 'https://github.com/LouSens/KerjaCerdas',
+    repoUrl: 'https://github.com/DarrenSuw/KerjaCerdas',
     liveUrl: 'https://kerja-cerdas.replit.app/',
     previewImage: '/kerjacerdas_card.jpeg',
     stats: [

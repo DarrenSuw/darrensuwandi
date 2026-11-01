@@ -133,11 +133,11 @@ export default function RecognitionSection() {
             </div>
 
             {/* Award cards — stagger 150ms, badges pop after their card */}
-            <div ref={awardsRef} className="grid md:grid-cols-2 gap-0" style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius-md)' }}>
+            <div ref={awardsRef} className="grid md:grid-cols-3 gap-0" style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius-md)' }}>
               {competitions.map((comp, i) => (
                 <div
                   key={comp.id}
-                  className={`flex flex-col gap-3 p-6 ${i === 0 ? 'border-b md:border-b-0 md:border-r border-[var(--border)]' : ''}`}
+                  className={`flex flex-col gap-3 p-6 ${i < competitions.length - 1 ? 'border-b md:border-b-0 md:border-r border-[var(--border)]' : ''}`}
                   style={{
                     ...(awardsVisible
                       ? { animationName:'recognitionReveal', animationDuration:'500ms', animationTimingFunction:'var(--ease-entrance)', animationFillMode:'both', animationDelay:`${i * 150}ms` }

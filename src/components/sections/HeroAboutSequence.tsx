@@ -6,10 +6,10 @@ import { useScrollReveal } from '@/hooks/useScrollReveal';
 import Magnetic from '@/components/ui/Magnetic';
 
 const stats = [
-  { label: 'ENGINEERING', value: '8+ Systems Built', numeric: false },
+  { label: 'ENGINEERING', value: '10+ Systems Built', numeric: false },
   { label: 'EXPERTISE',   value: 'Full-Stack AI',    numeric: false },
   { label: 'RESEARCH',    value: 'Adversarial ML',   numeric: false },
-  { label: 'HACKATHONS',  value: '4x Competitor',    numeric: false },
+  { label: 'HACKATHONS',  value: '5x Competitor',    numeric: false },
 ];
 
 const highlights = [
